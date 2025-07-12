@@ -1,0 +1,27 @@
+#!/usr/bin/bash
+
+hostname=$(hostnamectl hostname)
+time=$(timedatectl status | awk '{print $3}' | sed -n '4p')
+user=$(whoami)
+os=$(cat /etc/issue)
+date=$(date)
+uptime=$(uptime -p)
+upsec=$(awk '{print $1}' /proc/uptime)
+ip=$(hostname -I)
+mask=$(ifconfig | grep netmask | awk '{print $4}' | head -n 1)
+gateway=$(nmcli device show wlan0 | grep "IP4.GATEWAY" | awk '{print $2}' | head -n 1)
+ram_total=$(free -m | sed -n '2p' | awk '{printf "%.3f", $2 / 1024}')
+ram_used=$(free -m | sed -n '2p' | awk '{printf "%.3f", $3 / 1024}')
+ram_free=$(free -m | sed -n '2p' | awk '{printf "%.3f", $7 / 1024}')
+space_root_gb=$(df -B1 --output=size / | tail -n1 | awk '{printf "%.2f", $1 / (1024^2)}')
+space_root_used_gb=$(df -B1 --output=used / | tail -n1 | awk '{printf "%.2f", $1 / (1024^2)}')
+space_root_free_gb=$(df -B1 --output=avail / | tail -n1 | awk '{printf "%.2f", $1 / (1024^2)}')
+
+dayn=$(date | awk '{print $1}')
+day=$(date | awk '{print $2}')
+month=$(date | awk '{print $3}')
+year=$(date | awk '{print $4}')
+hour=$(date +%H)
+minute=$(date +%M)
+second=$(date +%S)
+
